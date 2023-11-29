@@ -1,0 +1,127 @@
+
+/* Mplayer.css */
+
+.music {
+  background-color: #10171e; /* Dark background color */
+  color: #fff; /* Text color */
+  padding: 20px;
+  border-radius: 0px;
+  position: relative;
+}
+
+.playing {
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.playnav{
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.cover-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.cover-container img{
+  max-height: 500px;
+}
+
+.cover-image {
+  max-width: 60%;
+  
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.react-player{
+  max-height: 50px;
+  max-width: 300px;
+  margin-left: 100px;
+}
+
+/* .react-player-container {
+  
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(0%,-300px);
+} */
+.search{
+  margin: 10px 40px;
+  
+}
+
+#prev,
+#play,
+#next,
+#random {
+  background-color: #3a3a3a; /* Play, Pause, Next button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  padding: 0px;
+  margin: 0 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.playing img{
+  width: 50px;
+}
+
+#vol{
+  width: 200px;
+}
+progress {
+  width: 100%;
+  margin-top: 10px;
+}
+
+#playlist {
+  margin-top: 20px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #3a3a3a; /* Playlist item background color */
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.playing-song {
+  background-color: #7f1414; /* Currently playing song background color */
+}
+
+#progress-bar {
+  margin-top: 20px;
+}
+
+
+/* Lyrics.css */
+
+.lyrics-container {
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+}
+
+.lyrics-container pre {
+  white-space: pre-wrap;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+}
+
+
+
+
