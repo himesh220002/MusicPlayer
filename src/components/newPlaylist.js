@@ -25,6 +25,24 @@ const newSongs = [
     coverImage: '/images/ts_wh.jpg',
     lyrics: lyricsData['Taylor-Swift-White-Horse'],
   },
+  {
+    url: './Music/Linkin Park - Numb.mp3',
+    title: 'Linkin Park - Numb',
+    coverImage: './images/linkin park Numb.jpg',
+    lyrics: lyricsData['Linkin Park - Numb'],
+  },
+  {
+    url: './Music/Linkin Park - Now I See.mp3',
+    title: 'Linkin Park - Now I See',
+    coverImage: './images/linkin park storm.jpg',
+    lyrics: lyricsData['Linkin Park - Now I See'],
+  },
+  {
+    url: './Music/Linkin Park - One Step Closer.mp3',
+    title: 'Linkin Park - One Step Closer',
+    coverImage: '',
+    lyrics: lyricsData[''],
+  },
 ];
 
 export default newSongs;

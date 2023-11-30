@@ -298,6 +298,116 @@ const lyricsData = {
   Try and catch me now, oh
   It's too late
   To catch me now'`
+
+  ,
+
+  "Linkin Park - Numb":`"I'm tired of being what you want me to be
+  Feeling so faithless, lost under the surface
+  Don't know what you're expecting of me
+  Put under the pressure of walking in your shoes
+  (Caught in the undertow, just caught in the undertow)
+  Every step that I take is another mistake to you
+  (Caught in the undertow, just caught in the undertow)
+  I've become so numb
+  I can't feel you there
+  Become so tired
+  So much more aware
+  I'm becoming this
+  All I want to do
+  Is be more like me
+  And be less like you
+  Can't you see that you're smothering me
+  Holding too tightly, afraid to lose control?
+  'Cause everything that you thought I would be
+  Has fallen apart right in front of you
+  (Caught in the undertow, just caught in the undertow)
+  Every step that I take is another mistake to you
+  (Caught in the undertow, just caught in the undertow)
+  And every second I waste is more than I can take
+  I've become so numb
+  I can't feel you there
+  Become so tired
+  So much more aware
+  I'm becoming this
+  All I want to do
+  Is be more like me
+  And be less like you
+  And I know
+  I may end up failing too
+  But I know
+  You were just like me with someone disappointed in you
+  I've become so numb
+  I can't feel you there
+  Become so tired
+  So much more aware
+  I'm becoming this
+  All I want to do
+  Is be more like me
+  And be less like you
+  I've become so numb
+  I can't feel you there
+  (I'm tired of being what you want me to be)
+  I've become so numb
+  I can't feel you there
+  (I'm tired of being what you want me to be)"`
+  ,
+
+  "Linkin Park - Now I See":`" I woke up in a dream today to the cold of the static
+  And put my cold feet on the floor
+  (Forgot all about yesterday)
+  Rememberin' I'm pretendin' to be where I'm not anymore
+  (A little taste of hypocrisy)
+  And I'm left in the wake of the mistake, slow to react
+  (Even though you're so close to me)
+  You're still so distant, and I can't bring you back
+  It's true, the way I feel
+  Was promised by your face
+  The sound of your voice
+  Painted on my memories
+  Even if you're not with me
+  I'm with you
+  (You, now I see, keepin' everything inside)
+  With you
+  (You, now, I see, even when I close my eyes)
+  (I hit you and you hit me back)
+  We fall to the floor, the rest of the day stands still
+  (Fine line between this and that)
+  When things go wrong, I pretend that the past isn't real
+  (I'm trapped in this memory)
+  And I'm left in the wake of the mistake, slow to react
+  (So even though you're close to me)
+  You're still so distant, and I can't bring you back
+  It's true, the way I feel
+  Was promised by your face
+  The sound of your voice
+  Painted on my memories
+  Even if you're not with me
+  I'm with you
+  (You, now, I see, keepin' everything inside)
+  With you
+  (You, now, I see, even when I close my eyes)
+  With you
+  (You, now I see, keepin' everything inside)
+  With you
+  (You, now, I see, even when I close my eyes)
+  No, no matter how far we've come
+  I can't wait to see tomorrow
+  No matter how far we've come
+  I, I can't wait to see tomorrow
+  With you
+  (You, now, I see, keepin' everything inside)
+  With you
+  (You, now, I see, even when I close my eyes)
+  With you
+  (You, now I see, keepin' everything inside)
+  With you
+  (You, now, I see, even when I close my eyes)"`
+  ,
+  "":`" "`
+  ,
+  "":`" "`
+  ,
+  "":`" "`
   // Add more songs as needed
 };
 
