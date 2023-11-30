@@ -40,8 +40,8 @@ const newSongs = [
   {
     url: './Music/Linkin Park - One Step Closer.mp3',
     title: 'Linkin Park - One Step Closer',
-    coverImage: '',
-    lyrics: lyricsData[''],
+    coverImage: './images/Linkin Park - One Step Closer.jpg',
+    lyrics: lyricsData['Linkin Park - One Step Closer'],
   },
 ];
 
