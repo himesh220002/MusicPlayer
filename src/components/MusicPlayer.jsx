@@ -174,14 +174,14 @@ const MusicPlayer = () => {
             onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
           />
           </div>
-          <div>
+          {/* <div>
           <input
             type="text"
             placeholder="Search..."
             className='search'
             onChange={(e) => handleSearch(e.target.value)}
           />
-          </div>
+          </div> */}
           </div>
 
         </div>
