@@ -4,8 +4,10 @@
 }
 h1{
   font-family:Georgia, 'Times New Roman', Times, serif;
-  font-size: 2rem;
-  margin-left: 50px;
+  font-size: 1.5rem;
+  margin: 0px ;
+  margin-left: 20px;
+  
   text-shadow: 5px 5px 5px rgba(0, 128, 0, 0.495) !important;
   
 }

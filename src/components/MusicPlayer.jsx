@@ -3,8 +3,10 @@
 import React, { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import './Mplayer.css';
-import lyricsData from './lyricsData.js';
+import newSong from './newPlaylist.js';
+
 import Lyrics from './Lyrics.js';
+
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -12,31 +14,15 @@ const MusicPlayer = () => {
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [randomPlay, setRandomPlay] = useState(false);
 
-  const [originalPlaylist, setOriginalPlaylist] = useState([
-    // Replace with your own original playlist of objects with 'url' and 'title' properties
-    { url: './Music/Eminem-Beautiful-Pain.mp3',
-     title: 'Eminem-Beautiful-Pain', 
-     coverImage: '/images/eminem-beautiful.jpg' , 
-     lyrics: lyricsData['Eminem-Beautiful-Pain'],
-    },
-    { url: './Music/Taylor_Swift_-_Blank_Space.mp3',
-      title: 'Taylor_Swift_-_Blank_Space',
-      coverImage: '/images/Taylor-Swift-Blank-Space.jpg',
-      lyrics: lyricsData['Taylor_Swift_-_Blank_Space'],
-  },
-    { url: './Music/Taylor-Swift-22.mp3',
-      title: 'Taylor-Swift-22' ,
-      coverImage: '/images/taylor_swift_22.png' ,
-      lyrics: lyricsData['Taylor-Swift-22'],
-  },
-    { url: './Music/Taylor-Swift-White-Horse.mp3',
-      title: 'Taylor-Swift-White-Horse' ,
-      coverImage: '/images/ts_wh.jpg' ,
-      lyrics: lyricsData['Taylor-Swift-White-Horse'],
-    },
-    // Add more songs as needed
-  ]);
+  const getStoredPlaylist = () => {
+    const storedPlaylist = localStorage.getItem('playlist');
+    return storedPlaylist ? JSON.parse(storedPlaylist) : [];
+  };
+
+  const [originalPlaylist, setOriginalPlaylist] = useState(newSong);
   const [playlist, setPlaylist] = useState(originalPlaylist);
+
+
   const playerRef = useRef(null);
 
   const playPauseToggle = () => {
@@ -124,8 +110,30 @@ const MusicPlayer = () => {
     setRandomPlay((prevRandomPlay) => !prevRandomPlay);
   };
 
+  const [newSongs, setNewSongs] = useState([]);
+
+  const handleFileChange = (e) => {
+    const files = e.target.files;
+    setNewSongs([...newSongs, ...files]);
+  };
+
+  const handleAddSongs = () => {
+    // Process the new songs and add them to the playlist
+    // For simplicity, let's assume each file has a title and URL
+    const addedSongs = newSongs.map(file => ({
+      title: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension from title
+      url: URL.createObjectURL(file),
+    }));
+
+    setPlaylist([...playlist, ...addedSongs]);
+    setNewSongs([]); // Clear the array for the next selection
+  };
+
   return (
     <div className='music'>
+    
+      
+
       <div className='cover-container'>
         <img
           src={playlist[currentSongIndex].coverImage || '/images/cover.webp'}
@@ -137,7 +145,10 @@ const MusicPlayer = () => {
       
       
       <div className='playing'>
+      
       <div className='playnav'>
+      
+        <div>
         <button id='prev' onClick={playPreviousSong}>
           <img src='./images/previous.png' alt='Previous' /> {/* Replace with your own icon */}
         </button>
@@ -150,23 +161,42 @@ const MusicPlayer = () => {
         <button id='random' onClick={toggleRandomPlay}>
           {randomPlay ? <img style={{filter : "contrast(250%)"}} src='./images/shuffle (1).png' alt='shuffle' />:<img src='./images/shuffle (1).png' alt='shuffle' />}
         </button>
-        <input
-          id='vol'
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={volume}
-          onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-        />
-        <input
-          type="text"
-          placeholder="Search..."
-          className='search'
-          onChange={(e) => handleSearch(e.target.value)}
-        />
         </div>
-        <div className='react-player-container'>
+          <div className='vol-search'>
+          <div>
+          <input
+            id='vol'
+            type="range"
+            min={0}
+            max={1}
+            step={0.01}
+            value={volume}
+            onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+          />
+          </div>
+          <div>
+          <input
+            type="text"
+            placeholder="Search..."
+            className='search'
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+          </div>
+          </div>
+
+        </div>
+        
+        <div id='currentsong'>
+        <p><strong>🏴‍☠️ Treasure playing: </strong> <i>{playlist[currentSongIndex].title}</i></p>
+        </div>
+        
+      </div>
+     
+      <div id='progress-bar'>
+        <progress value={progress} max={1} onClick={handleProgressBarClick}></progress>
+      </div>
+
+      <div className='react-player-container'>
           <ReactPlayer
             ref={playerRef}
             url={playlist[currentSongIndex].url}
@@ -180,16 +210,24 @@ const MusicPlayer = () => {
             className='react-player'
           />
         </div>
-        
-      </div>
-      <div id='currentsong'>
-        <p><strong>🏴‍☠️ Treasure playing: </strong> <i>{playlist[currentSongIndex].title}</i></p>
-      </div>
-      <div id='progress-bar'>
-        <progress value={progress} max={1} onClick={handleProgressBarClick}></progress>
-      </div>
+
       <div id='playlist'>
-        <h2>⚓ Pirate Playlist</h2>
+        <div className='pirateplay'>
+          <div>
+            <h2>⚓ Pirate Playlist</h2>
+          </div>
+          
+            <div className='search-file'>
+            <input
+              type="file"
+              accept="audio/*"
+              multiple
+              onChange={handleFileChange}
+            />
+            <button onClick={handleAddSongs} ><img src="./images/add.png" style={{"width":"30px", "height":"30px"}} alt="add"/></button>
+          
+          </div>
+        </div>
         <ul>
           {playlist.map((song, index) => (
             <li
@@ -206,8 +244,9 @@ const MusicPlayer = () => {
       <div className='lyrics-container'>
         <Lyrics songTitle={playlist[currentSongIndex].title} />
       </div>
-      
+     
     </div>
+    
   );
 };
 

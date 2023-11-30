@@ -4,22 +4,25 @@
 .music {
   background-color: #10171e; /* Dark background color */
   color: #fff; /* Text color */
-  padding: 20px;
+  padding: 5px;
   border-radius: 0px;
   position: relative;
 }
 
 .playing {
- 
+  background-color: rgba(13, 105, 105, 0.327);
+  border-radius: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 0px;
+  padding: 5px;
 }
 
 .playnav{
   display: flex;
   justify-content: center;
+  
 }
 
 
@@ -29,7 +32,7 @@
   margin-bottom: 20px;
 }
 .cover-container img{
-  max-height: 500px;
+  max-height: 400px;
 }
 
 .cover-image {
@@ -42,7 +45,7 @@
 .react-player{
   max-height: 50px;
   max-width: 300px;
-  margin-left: 100px;
+  margin: 0px;
 }
 
 /* .react-player-container {
@@ -76,9 +79,17 @@
 #vol{
   width: 200px;
 }
+
+.vol-search{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left:  10px;
+}
+
 progress {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 0px;
 }
 
 #playlist {
@@ -100,6 +111,11 @@ li {
 
 .playing-song {
   background-color: #7f1414; /* Currently playing song background color */
+  
+}
+#currentsong {
+  margin: 0;
+  padding: 0px;
 }
 
 #progress-bar {
@@ -110,18 +126,150 @@ li {
 /* Lyrics.css */
 
 .lyrics-container {
-  padding: 10px;
+  padding: 0px;
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid #ccc;
 }
 
 .lyrics-container pre {
+  
   white-space: pre-wrap;
   font-family: 'Courier New', Courier, monospace;
   font-size: 20px;
 }
 
+.pirateplay{
+  display: flex;
+  justify-content: space-between;
+  align-items:center ;
+  margin: 0px;
+}
+.search-file{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 50px;
+}
+
+@media screen and (max-width: 1200px) {
 
 
+  .playing{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+  }
+
+    #prev,
+  #play,
+  #next,
+  #random {
+    width: 40px;
+    height: 40px;
+  }
+
+  .playing img{
+    width: 40px;
+  }
+  
+  .react-player{
+    max-height: 30px;
+    max-width: 300px;
+    margin-left: 0px;
+  }
+
+  .cover-container img {
+    max-width: 80%; /* Adjust the cover image size for smaller screens */
+  }
+
+  .react-player {
+    max-width: 80%; /* Adjust the player size for smaller screens */
+  }
+}
+
+@media screen and (max-width: 800px) {
+
+  .cover-container img{
+    max-height: 340px;
+  }
+  .playing{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+  }
+
+  #prev,
+#play,
+#next,
+#random {
+  width: 40px;
+  height: 40px;
+}
+
+.playing img{
+  width: 40px;
+}
+.playnav{
+  flex-direction: column;
+}
+
+  .cover-container img {
+    max-width: 80%; /* Adjust the cover image size for smaller screens */
+  }
+
+  .react-player {
+    max-width: 80%; /* Adjust the player size for smaller screens */
+  }
+}
+
+@media screen and (max-width: 600px) {
+
+  .cover-container img{
+    max-height: 250px;
+  }
+
+  .playnav{
+    background-color: #601111;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
+    border-radius: 20px;
+    padding: 20px;
+  }
+
+  .vol-search{
+    flex-direction: column;
+  }
+
+  .cover-container img {
+    max-width: 80%; /* Adjust the cover image size for smaller screens */
+  }
+
+  .react-player {
+    max-width: 80%; /* Adjust the player size for smaller screens */
+  }
+}
+
+@media screen and (max-width: 400px) {
+
+  .pirateplay{
+    flex-direction: column;
+  }
+
+  .cover-container img{
+    height: 250px;
+  }
+  .playnav{
+    padding: 5px;
+  }
+  .cover-container img {
+    max-width: 80%; /* Adjust the cover image size for smaller screens */
+  }
+
+  .react-player {
+    max-width: 80%; /* Adjust the player size for smaller screens */
+  }
+  
+}
 

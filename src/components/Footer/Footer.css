@@ -1,0 +1,18 @@
+/* Footer.css */
+
+.footer {
+  background-color: #10171e;
+  color: #fff;
+  padding: 10px 0px;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* You can add more styles as needed */
