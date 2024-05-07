@@ -119,7 +119,7 @@ const MusicPlayer = () => {
 
   const handleAddSongs = () => {
     // Process the new songs and add them to the playlist
-    // For simplicity, let's assume each file has a title and URL
+    // For simplicity, each file has a title and URL
     const addedSongs = newSongs.map(file => ({
       title: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension from title
       url: URL.createObjectURL(file),
@@ -131,122 +131,137 @@ const MusicPlayer = () => {
 
   return (
     <div className='music'>
-    
-      
+
+
 
       <div className='cover-container'>
+        
+        <div className='playing'>
+       
+        <div id='currentsong'>
+        <p><strong>🏴‍☠️ Treasure playing: </strong> <i>{playlist[currentSongIndex].title}</i></p>
+        </div>
+        <div className='playnav'>
+
+        <div>
+          <button id='prev' onClick={playPreviousSong}>
+            <img src='./images/previous.png' alt='Previous' />
+          </button>
+          <button id='play' onClick={playPauseToggle}>
+            {playing ? <img src='./images/pause-button.png' alt='Pause' /> : <img src='./images/play.png' alt='Play' />}
+          </button>
+          <button id='next' onClick={playNextSong}>
+            <img src='./images/next.png' alt='Next' />
+          </button>
+          <button id='random' onClick={toggleRandomPlay}>
+            {randomPlay ? <img style={{ filter: "contrast(250%)" }} src='./images/shuffle (1).png' alt='shuffle' /> : <img src='./images/shuffle (1).png' alt='shuffle' />}
+          </button>
+        </div>
+        <div className='vol-search'>
+          <div>
+            <input
+              id='vol'
+              type="range"
+              min={0}
+              max={1}
+              step={0.01}
+              value={volume}
+              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+              
+            />
+          </div>
+          {/* <div>
+        <input
+          type="text"
+          placeholder="Search..."
+          className='search'
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+        </div> */}
+        </div>
+
+        </div>
+
+        
+        </div>
+
+        <div className='covrimg'>
         <img
           src={playlist[currentSongIndex].coverImage || '/images/cover.webp'}
           alt='Album Cover'
           className='cover-image'
         />
-      </div>
-
-      
-      
-      <div className='playing'>
-      
-      <div className='playnav'>
-      
-        <div>
-        <button id='prev' onClick={playPreviousSong}>
-          <img src='./images/previous.png' alt='Previous' /> {/* Replace with your own icon */}
-        </button>
-        <button id='play' onClick={playPauseToggle}>
-          {playing ? <img src='./images/pause-button.png' alt='Pause' /> : <img src='./images/play.png' alt='Play' />} {/* Replace with your own icons */}
-        </button>
-        <button id='next' onClick={playNextSong}>
-          <img src='./images/next.png' alt='Next' /> {/* Replace with your own icon */}
-        </button>
-        <button id='random' onClick={toggleRandomPlay}>
-          {randomPlay ? <img style={{filter : "contrast(250%)"}} src='./images/shuffle (1).png' alt='shuffle' />:<img src='./images/shuffle (1).png' alt='shuffle' />}
-        </button>
-        </div>
-          <div className='vol-search'>
-          <div>
-          <input
-            id='vol'
-            type="range"
-            min={0}
-            max={1}
-            step={0.01}
-            value={volume}
-            onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-          />
-          </div>
-          {/* <div>
-          <input
-            type="text"
-            placeholder="Search..."
-            className='search'
-            onChange={(e) => handleSearch(e.target.value)}
-          />
-          </div> */}
-          </div>
 
         </div>
-        
-        <div id='currentsong'>
-        <p><strong>🏴‍☠️ Treasure playing: </strong> <i>{playlist[currentSongIndex].title}</i></p>
-        </div>
-        
       </div>
-     
+
+
+
+      
+
+        
+
+      
+      <div className='progsetting'>
       <div id='progress-bar'>
         <progress value={progress} max={1} onClick={handleProgressBarClick}></progress>
       </div>
 
       <div className='react-player-container'>
-          <ReactPlayer
-            ref={playerRef}
-            url={playlist[currentSongIndex].url}
-            playing={playing}
-            volume={volume}
-            onPlay={() => console.log('onPlay')}
-            onPause={() => console.log('onPause')}
-            onEnded={handleEnded}
-            onProgress={handleProgress}
-            controls
-            className='react-player'
-          />
-        </div>
-
+        <ReactPlayer
+          ref={playerRef}
+          url={playlist[currentSongIndex].url}
+          playing={playing}
+          volume={volume}
+          onPlay={() => console.log('onPlay')}
+          onPause={() => console.log('onPause')}
+          onEnded={handleEnded}
+          onProgress={handleProgress}
+          controls
+          className='react-player'
+        />
+      </div>
+      </div>
       <div id='playlist'>
         <div className='pirateplay'>
           <div>
             <h2>⚓ Pirate Playlist</h2>
           </div>
-          
-            <div className='search-file'>
+
+          <div className='search-file'>
             <input
               type="file"
               accept="audio/*"
               multiple
               onChange={handleFileChange}
             />
-            <button onClick={handleAddSongs} ><img src="./images/add.png" style={{"width":"30px", "height":"30px"}} alt="add"/></button>
-          
+            <button onClick={handleAddSongs} ><img src="./images/add.png" style={{ "width": "30px", "height": "30px" }} alt="add" /></button>
+
           </div>
         </div>
-        <ul>
-          {playlist.map((song, index) => (
-            <li
-              key={index}
-              onClick={() => handleClick(index)}
-              className={index === currentSongIndex ? 'playing-song' : ''}
-            >
-              🎶 {song.title}
-            </li>
-          ))}
-        </ul>
+        <div className='listLyric'>
+          <div className='songlist'>
+            <ul>
+              {playlist.map((song, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleClick(index)}
+                  className={index === currentSongIndex ? 'playing-song' : ''}
+                >
+                 <div style={{"display": "flex"}}><div> 🎶 </div><div>{song.title} </div></div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className='lyrics-container'>
+            <Lyrics songTitle={playlist[currentSongIndex].title} />
+          </div>
+        </div>
       </div>
-      
-      <div className='lyrics-container'>
-        <Lyrics songTitle={playlist[currentSongIndex].title} />
-      </div>
-     
     </div>
-    
+
+
+
   );
 };
 
