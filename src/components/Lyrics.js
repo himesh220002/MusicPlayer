@@ -8,7 +8,7 @@ const Lyrics = ({ songTitle }) => {
   const lyrics = lyricsData[songTitle] || 'Lyrics not available';
 
   return (
-    <div className='lyrics-container'>
+    <div className='lyrics-container custom-scroll'>
       <pre>{lyrics}</pre>
     </div>
   );

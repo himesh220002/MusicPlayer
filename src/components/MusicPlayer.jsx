@@ -4,15 +4,16 @@ import React, { useState, useRef } from 'react';
 import ReactPlayer from 'react-player';
 import './Mplayer.css';
 import newSong from './newPlaylist.js';
-
 import Lyrics from './Lyrics.js';
-
+import { FaVolumeHigh } from "react-icons/fa6";
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [randomPlay, setRandomPlay] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [newSongs, setNewSongs] = useState([]);
 
   const getStoredPlaylist = () => {
     const storedPlaylist = localStorage.getItem('playlist');
@@ -22,54 +23,28 @@ const MusicPlayer = () => {
   const [originalPlaylist, setOriginalPlaylist] = useState(newSong);
   const [playlist, setPlaylist] = useState(originalPlaylist);
 
-
   const playerRef = useRef(null);
 
-  const playPauseToggle = () => {
-    setPlaying((prevPlaying) => !prevPlaying);
-  };
-
-  const handleVolumeChange = (newVolume) => {
-    setVolume(newVolume);
-  };
-
-  const [progress, setProgress] = useState(0);
-
-  const handleProgress = (progress) => {
-    // Update the progress state
-    setProgress(progress.played);
-  };
+  const playPauseToggle = () => setPlaying((prev) => !prev);
+  const handleVolumeChange = (vol) => setVolume(vol);
+  const handleProgress = (prog) => setProgress(prog.played);
   const handleProgressBarClick = (e) => {
-    // Calculate the percentage of the click position within the progress bar
-    const clickPosition = e.clientX - e.target.getBoundingClientRect().left;
-    const progressBarWidth = e.target.offsetWidth;
-    const percentageClicked = clickPosition / progressBarWidth;
-
-    // Update the progress state and seek to the clicked position
-    setProgress(percentageClicked);
-    playerRef.current.seekTo(percentageClicked, 'fraction');
+    const clickX = e.clientX - e.target.getBoundingClientRect().left;
+    const width = e.target.offsetWidth;
+    const percent = clickX / width;
+    setProgress(percent);
+    playerRef.current.seekTo(percent, 'fraction');
   };
 
-  const handleEnded = () => {
-    // Play the next song when the current one ends
-    playNextSong();
-  };
+  const handleEnded = () => playNextSong();
+  const toggleRandomPlay = () => setRandomPlay((prev) => !prev);
 
-
-
-  const handleSearch = (searchTerm) => {
-    // Update the playlist based on the search results
-    const filteredPlaylist = originalPlaylist.filter((song) =>
-      song.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const handleSearch = (term) => {
+    const filtered = originalPlaylist.filter((song) =>
+      song.title.toLowerCase().includes(term.toLowerCase())
     );
-
-    // If the search term is empty, revert to the original playlist
-    const updatedPlaylist = searchTerm.trim() === '' ? originalPlaylist : filteredPlaylist;
-
-    setPlaylist(updatedPlaylist);
+    setPlaylist(term.trim() === '' ? originalPlaylist : filtered);
   };
-
-
 
   const handleClick = (index) => {
     setCurrentSongIndex(index);
@@ -78,169 +53,116 @@ const MusicPlayer = () => {
 
   const playNextSong = () => {
     if (randomPlay) {
-      // Generate a random index different from the current index
-      let randomIndex;
+      let idx;
       do {
-        randomIndex = Math.floor(Math.random() * playlist.length);
-      } while (randomIndex === currentSongIndex);
-
-      setCurrentSongIndex(randomIndex);
+        idx = Math.floor(Math.random() * playlist.length);
+      } while (idx === currentSongIndex);
+      setCurrentSongIndex(idx);
     } else {
-      // Play the next song sequentially
-      setCurrentSongIndex((prevIndex) => (prevIndex + 1) % playlist.length);
+      setCurrentSongIndex((prev) => (prev + 1) % playlist.length);
     }
   };
 
   const playPreviousSong = () => {
     if (randomPlay) {
-      // Generate a random index different from the current index
-      let randomIndex;
+      let idx;
       do {
-        randomIndex = Math.floor(Math.random() * playlist.length);
-      } while (randomIndex === currentSongIndex);
-
-      setCurrentSongIndex(randomIndex);
+        idx = Math.floor(Math.random() * playlist.length);
+      } while (idx === currentSongIndex);
+      setCurrentSongIndex(idx);
     } else {
-      // Play the previous song sequentially
-      setCurrentSongIndex((prevIndex) => (prevIndex - 1 + playlist.length) % playlist.length);
+      setCurrentSongIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
     }
   };
 
-  const toggleRandomPlay = () => {
-    setRandomPlay((prevRandomPlay) => !prevRandomPlay);
-  };
-
-  const [newSongs, setNewSongs] = useState([]);
-
   const handleFileChange = (e) => {
-    const files = e.target.files;
-    setNewSongs([...newSongs, ...files]);
+    setNewSongs([...newSongs, ...e.target.files]);
   };
 
   const handleAddSongs = () => {
-    // Process the new songs and add them to the playlist
-    // For simplicity, each file has a title and URL
-    const addedSongs = newSongs.map(file => ({
-      title: file.name.replace(/\.[^/.]+$/, ""), // Remove file extension from title
+    const added = newSongs.map(file => ({
+      title: file.name.replace(/\.[^/.]+$/, ''),
       url: URL.createObjectURL(file),
     }));
-
-    setPlaylist([...playlist, ...addedSongs]);
-    setNewSongs([]); // Clear the array for the next selection
+    setPlaylist([...playlist, ...added]);
+    setNewSongs([]);
   };
 
   return (
     <div className='music'>
-
-
-
-      <div className='cover-container'>
-        
-        <div className='playing'>
-       
-        <div id='currentsong'>
-        <p><strong>🏴‍☠️ Treasure playing: </strong> <i>{playlist[currentSongIndex].title}</i></p>
-        </div>
-        <div className='playnav'>
-
-        <div>
-          <button id='prev' onClick={playPreviousSong}>
-            <img src='./images/previous.png' alt='Previous' />
-          </button>
-          <button id='play' onClick={playPauseToggle}>
-            {playing ? <img src='./images/pause-button.png' alt='Pause' /> : <img src='./images/play.png' alt='Play' />}
-          </button>
-          <button id='next' onClick={playNextSong}>
-            <img src='./images/next.png' alt='Next' />
-          </button>
-          <button id='random' onClick={toggleRandomPlay}>
-            {randomPlay ? <img style={{ filter: "contrast(250%)" }} src='./images/shuffle (1).png' alt='shuffle' /> : <img src='./images/shuffle (1).png' alt='shuffle' />}
-          </button>
-        </div>
-        <div className='vol-search'>
-          <div>
-            <input
-              id='vol'
-              type="range"
-              min={0}
-              max={1}
-              step={0.01}
-              value={volume}
-              onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
-              
-            />
+      <div className='cover-container '>
+        <div className='playing '>
+          <p id='currentsong'><strong>🏴‍☠️ Treasure playing: </strong><i>{playlist[currentSongIndex].title}</i></p>
+          <div className='playnav'>
+            <div id="playcontrol">
+              <button id='prev' onClick={playPreviousSong}><img src='./images/previous.png' alt='Previous' /></button>
+              <button id='play' onClick={playPauseToggle}>
+                {playing ? <img src='./images/pause-button.png' alt='Pause' /> : <img src='./images/play.png' alt='Play' />}
+              </button>
+              <button id='next' onClick={playNextSong}><img src='./images/next.png' alt='Next' /></button>
+              <button id='random' onClick={toggleRandomPlay}>
+                <img src='./images/shuffle (1).png' alt='shuffle' style={{ filter: randomPlay ? 'contrast(250%)' : 'none' }} />
+              </button>
+            </div>
+            <div className='vol-search'>
+              <i>< FaVolumeHigh /></i>
+              <input
+                id='vol'
+                type='range'
+                min={0}
+                max={1}
+                step={0.01}
+                value={volume}
+                onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+              />
+            </div>
           </div>
-          {/* <div>
-        <input
-          type="text"
-          placeholder="Search..."
-          className='search'
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-        </div> */}
-        </div>
-
-        </div>
-
-        
         </div>
 
         <div className='covrimg'>
-        <img
-          src={playlist[currentSongIndex].coverImage || '/images/cover.webp'}
-          alt='Album Cover'
-          className='cover-image'
-        />
-
+          <img
+            src={playlist[currentSongIndex].coverImage || '/images/cover.webp'}
+            alt='Album Cover'
+            className='cover-image'
+          />
         </div>
       </div>
 
-
-
-      
-
-        
-
-      
       <div className='progsetting'>
-      <div id='progress-bar'>
-        <progress value={progress} max={1} onClick={handleProgressBarClick}></progress>
+        <div id='progress-bar'>
+          <progress value={progress} max={1} onClick={handleProgressBarClick}></progress>
+        </div>
+
+        <div className='react-player-container'>
+          <ReactPlayer
+            ref={playerRef}
+            url={playlist[currentSongIndex].url}
+            playing={playing}
+            volume={volume}
+            onEnded={handleEnded}
+            onProgress={handleProgress}
+            controls
+            className='react-player'
+          />
+        </div>
       </div>
 
-      <div className='react-player-container'>
-        <ReactPlayer
-          ref={playerRef}
-          url={playlist[currentSongIndex].url}
-          playing={playing}
-          volume={volume}
-          onPlay={() => console.log('onPlay')}
-          onPause={() => console.log('onPause')}
-          onEnded={handleEnded}
-          onProgress={handleProgress}
-          controls
-          className='react-player'
-        />
-      </div>
-      </div>
-      <div id='playlist'>
+      <div id='playlist custom-scroll'>
         <div className='pirateplay'>
-          <div>
-            <h2>⚓ Pirate Playlist</h2>
-          </div>
-
+          <h2>⚓ Pirate Playlist</h2>
           <div className='search-file'>
             <input
-              type="file"
-              accept="audio/*"
+              type='file'
+              accept='audio/*'
               multiple
               onChange={handleFileChange}
             />
-            <button onClick={handleAddSongs} ><img src="./images/add.png" style={{ "width": "30px", "height": "30px" }} alt="add" /></button>
-
+            <button onClick={handleAddSongs}><img src='./images/add.png' style={{ width: '30px', height: '30px' }} alt='add' /></button>
           </div>
         </div>
+
         <div className='listLyric'>
-          <div className='songlist'>
+          <div className='songlist custom-scroll'>
             <ul>
               {playlist.map((song, index) => (
                 <li
@@ -248,20 +170,20 @@ const MusicPlayer = () => {
                   onClick={() => handleClick(index)}
                   className={index === currentSongIndex ? 'playing-song' : ''}
                 >
-                 <div style={{"display": "flex"}}><div> 🎶 </div><div>{song.title} </div></div>
+                  <div style={{ display: 'flex' }}>
+                    <span>🎶</span>&nbsp;<span>{song.title}</span>
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
-          <div className='lyrics-container'>
+
+          <div className='lyrics-container custom-scroll'>
             <Lyrics songTitle={playlist[currentSongIndex].title} />
           </div>
         </div>
       </div>
     </div>
-
-
-
   );
 };
 

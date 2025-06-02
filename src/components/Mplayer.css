@@ -1,342 +1,288 @@
+/* Container & layout */
 
-/* Mplayer.css */
+  .custom-scroll {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE/Edge */
+}
+
+.custom-scroll::-webkit-scrollbar {
+  display: none !important; /* Chrome/Safari */
+}
+body{
+  background-color: #020513 !important;
+}
 
 .music {
-  background-color: #10171e; /* Dark background color */
-  color: #fff; /* Text color */
-  padding: 5px;
-  border-radius: 0px;
-  position: relative;
-}
-
-.playing {
-  /* background-color: rgba(13, 105, 105, 0.327); */
-  border-radius: 10px;
+  max-width: 900px;
+  margin: 20px auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #eee;
+  background: #121212;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  justify-content: end;
-  align-items: start;
-  margin-top: 0px;
+  gap: 20px;
+}
+
+/* Cover and playing section */
+.cover-container {
+  display: flex;
+  gap: 30px;
+  align-items: end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin:  0 20px 0 20px;
+}
+
+/* Current song info and controls */
+.playing {
+  flex: 1;
+  min-width: 280px;
+  max-width: 500px;
+  border: 2px solid rgb(3, 80, 113);
+  border-radius: 10px;
   padding: 5px;
 }
 
-.playnav{
-  display: flex;
-  justify-content: center;
+#currentsong {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
   
+  color: #1db954; /* Spotify green for highlight */
 }
 
-
-
-.cover-container {
-  display: flex;
-  justify-content: space-between;
-  border: 2px solid rgb(80, 72, 72);
-  border-radius: 10px;
-  padding: 20px;
-  margin: 20px;
-}
-.covrimg img{
-  max-height: 400px;
-}
-.covrimg{
-  display: flex;
-  justify-content: end;
-}
-
-.cover-image {
-  
-  
-  max-width: 60%;
-  border: 5px solid rgb(166, 105, 24);
-  border-radius: 10px;
-  box-shadow: 0px 0px 30px #4a4141;
-}
-
-.react-player{
-  max-height: 50px;
-  max-width: 300px;
-  margin: 0px;
-}
-
-/* .react-player-container {
-  
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(0%,-300px);
-} */
-.search{
-  margin: 10px 40px;
-  
-}
-
-#prev,
-#play,
-#next,
-#random {
-  background-color: #3a3a3a; /* Play, Pause, Next button background color */
-  color: #fff; /* Button text color */
-  border: none;
-  padding: 0px;
-  margin: 0 10px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-.playing img{
-  width: 50px;
-}
-
-#vol{
-  width: 200px;
-}
-
-.vol-search{
+#playcontrol{
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left:  10px;
+}
+.playnav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Control buttons container */
+.playnav > div:first-child {
+  display: flex;
+  gap: 5px;
+}
+
+/* Control buttons */
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 3px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+button:hover,
+button:focus {
+  background-color: #ab8a8a;
+  outline: none;
+}
+
+/* Button images */
+button img {
+  width: 28px;
+  height: 28px;
+  display: block;
+}
+
+/* Volume & search container */
+.vol-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input#vol {
+  width: 120px;
+  cursor: pointer;
+}
+
+/* Cover image container */
+.covrimg {
+  width: 280px;
+  height: 280px;
+  border-radius: 12px;
+  object-fit: cover;
+  overflow: hidden;
+  box-shadow: 0 0 15px 2px #90bea0;
+}
+
+.cover-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Progress & player */
+.progsetting {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#progress-bar {
+  width: 100%;
+  cursor: pointer;
 }
 
 progress {
   width: 100%;
-  margin-top: 0px;
+  height: 12px;
+  border-radius: 10px;
+  appearance: none;
+  background-color: #b79e9e;
+  overflow: hidden;
 }
 
-.progsetting{
+progress::-webkit-progress-bar {
+  background-color: #471313;
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #057bae;
+  border-radius: 10px;
+}
+
+progress::-moz-progress-bar {
+  background-color: #1db954;
+  border-radius: 10px;
+}
+
+/* ReactPlayer container hides native controls */
+.react-player-container {
+  display: none;
+}
+
+/* Playlist section */
+#playlist {
+  background: #181818;
+  border-radius: 12px;
+  padding: 15px;
+  max-height: 350px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  margin: 20px;
+  gap: 15px;
 }
 
-#playlist {
-  margin: 20px;
-  
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  padding: 10px;
-  margin-bottom: 5px;
-  background-color: #3a3a3a; /* Playlist item background color */
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.playing-song {
-  background-color: #7f1414; /* Currently playing song background color */
-  
-}
-#currentsong {
-  font-size: 20px;
-  margin: 0;
-  padding: 0px;
-}
-
-#progress-bar {
-  margin-top: 20px;
-}
-
-
-/* Lyrics.css */
-
-.lyrics-container {
-  padding: 0px;
-  max-height: 500px;
-  max-width: 600px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-}
-
-.lyrics-container pre {
-  
-  white-space: pre-wrap;
-  font-family: 'Courier New', Courier, monospace;
-  margin: 10px;
-  margin-left: 20px;
-  font-size: 20px;
-  
-  }
-
-.pirateplay{
+/* Playlist header */
+.pirateplay {
   display: flex;
   justify-content: space-between;
-  align-items:center ;
-  margin: 0px;
+  align-items: center;
+  flex-wrap: wrap;
 }
-.search-file{
+
+.pirateplay h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #88c59e;
+  font-weight: 700;
+}
+
+/* File input & add button container */
+.search-file {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-left: 50px;
+  gap: 10px;
 }
 
-.listLyric{
+.search-file input[type='file'] {
+  cursor: pointer;
+  color: #eee;
+}
+
+/* Song list container */
+.listLyric {
   display: flex;
-  gap: 50px;
-  margin-top: 20px;
-}
-.songlist{
-  width: 800px;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-@media screen and (max-width:1300px) {
-  .cover-container{
-    flex-direction: column-reverse;
+/* Song list */
+.songlist {
+  flex: 1 1 300px;
+  overflow-y: auto;
+  background-color: #222;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.songlist ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.songlist li {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.songlist li:hover {
+  background-color: #1db954;
+  color: #fff;
+}
+
+.songlist li.playing-song {
+  background-color: #050e34;
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 0 10px #1db954;
+}
+
+/* Lyrics container */
+.lyrics-container {
+  flex: 1 1 300px;
+  background-color: #222;
+  border-radius: 8px;
+  padding: 15px;
+  color: #ccc;
+  overflow-y: auto;
+  max-height: 280px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cover-container {
+    flex-direction: column;
     align-items: center;
-    justify-content: center ;
-    background-color: #330e0e;
   }
-  .playing{
-    align-items: center;
-  }
-  .covrimg{
+  .playnav {
     justify-content: center;
   }
-}
-
-@media screen and (max-width: 1200px) {
-
-
-  .playing{
-    display: flex;
-    flex-direction: column;
+  .vol-search {
     justify-content: center;
-    
-  }
-
-    #prev,
-  #play,
-  #next,
-  #random {
-    width: 40px;
-    height: 40px;
-  }
-
-  .playing img{
-    width: 40px;
-  }
-  
-  .react-player{
-    max-height: 30px;
-    max-width: 300px;
-    margin-left: 0px;
-  }
-
-  .cover-container img {
-    max-width: 80%; /* Adjust the cover image size for smaller screens */
-  }
-
-  .react-player {
-    max-width: 80%; /* Adjust the player size for smaller screens */
-  }
-}
-
-@media screen and (max-width: 800px) {
-
-  .cover-container img{
-    max-height: 340px;
-  }
-  .playing{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-  }
-
-  #prev,
-#play,
-#next,
-#random {
-  width: 40px;
-  height: 40px;
-}
-
-.playing img{
-  width: 40px;
-}
-.playnav{
-  flex-direction: column;
-}
-
-  .cover-container img {
-    max-width: 80%; /* Adjust the cover image size for smaller screens */
-  }
-
-  .react-player {
-    max-width: 80%; /* Adjust the player size for smaller screens */
-  }
-
-  .listLyric{
-    flex-direction: column;
-  }
-  .songlist{
     width: 100%;
+    margin-top: 10px;
   }
-
-}
-
-@media screen and (max-width: 600px) {
-
-  .cover-container img{
-    max-height: 250px;
-  }
-
-  .playnav{
-    background-color: #601111;
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.5);
-    border-radius: 20px;
-    padding: 20px;
-  }
-
-  .vol-search{
+  .listLyric {
     flex-direction: column;
   }
-
-  .cover-container img {
-    max-width: 80%; /* Adjust the cover image size for smaller screens */
-  }
-
-  .react-player {
-    max-width: 80%; /* Adjust the player size for smaller screens */
-  }
-  .listLyric{
-    flex-direction: column;
-  }
-  .songlist{
-    width: 100%;
+  .songlist,
+  .lyrics-container {
+    max-height: 200px;
   }
 }
-
-@media screen and (max-width: 400px) {
-
-  .pirateplay{
-    flex-direction: column;
-  }
-
-  
-  .playnav{
-    padding: 5px;
-  }
-  .cover-container img {
-    max-width: 80%; /* Adjust the cover image size for smaller screens */
-  }
-
-  .react-player {
-    max-width: 80%; /* Adjust the player size for smaller screens */
-  }
-  
-  .listLyric{
-    flex-direction: column;
-  }
-  .songlist{
-    width: 100%;
-  }
-
-}
-
