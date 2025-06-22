@@ -43,6 +43,22 @@ const newSongs = [
     coverImage: './images/Linkin Park - One Step Closer.jpg',
     lyrics: lyricsData['Linkin Park - One Step Closer'],
   },
+  {
+    url: './Music/Hotel California.flac',
+    title: 'Hotel California',
+  },
+  {
+    url: './Music/Comfortably Numb.flac',
+    title: 'Comfortably Numb',
+  },
+  {
+    url: './Music/Pink Floyd - High Hopes (Official Music Video).mp3',
+    title: 'Pink Floyd - High Hopes',
+  },
+  {
+    url: './Music/PinkFloyd - have a cigar.m4a',
+    title: 'PinkFloyd - have a cigar',
+  },
 ];
 
 export default newSongs;

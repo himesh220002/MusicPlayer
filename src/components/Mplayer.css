@@ -1,3 +1,5 @@
+
+
 /* Container & layout */
 
   .custom-scroll {
@@ -26,6 +28,22 @@ body{
   gap: 20px;
 }
 
+.playArea{
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  gap:50px;
+}
+
+/* tone animation */
+.toneAnimation{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid blue;
+  margin-bottom: 20px;
+}
+
 /* Cover and playing section */
 .cover-container {
   display: flex;
@@ -33,14 +51,14 @@ body{
   align-items: end;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin:  0 20px 0 20px;
+  
 }
 
 /* Current song info and controls */
 .playing {
   flex: 1;
   min-width: 280px;
-  max-width: 500px;
+  max-width: 550px;
   border: 2px solid rgb(3, 80, 113);
   border-radius: 10px;
   padding: 5px;
@@ -48,7 +66,7 @@ body{
 
 #currentsong {
   font-size: 1.2rem;
-  margin-bottom: 15px;
+  /* margin-bottom: 5px; */
   font-weight: 600;
   
   color: #1db954; /* Spotify green for highlight */
@@ -61,15 +79,19 @@ body{
 }
 .playnav {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
+  padding: 0 20px ;
   flex-wrap: wrap;
 }
 
 /* Control buttons container */
 .playnav > div:first-child {
+  
   display: flex;
-  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  gap:5px
 }
 
 /* Control buttons */
@@ -82,17 +104,16 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover,
-button:focus {
-  background-color: #ab8a8a;
-  outline: none;
+button:hover {
+  
+  outline:auto;
 }
 
 /* Button images */
 button img {
-  width: 28px;
-  height: 28px;
-  display: block;
+  width: 50px;
+  height: 50px;
+  /* display: block; */
 }
 
 /* Volume & search container */
@@ -103,7 +124,8 @@ button img {
 }
 
 input#vol {
-  width: 120px;
+  /* width: 120px; */
+  
   cursor: pointer;
 }
 
@@ -210,6 +232,7 @@ progress::-moz-progress-bar {
   gap: 20px;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
 }
 
 /* Song list */
@@ -219,6 +242,7 @@ progress::-moz-progress-bar {
   background-color: #222;
   border-radius: 8px;
   padding: 10px;
+  max-height: 500px;
 }
 
 .songlist ul {
@@ -261,7 +285,7 @@ progress::-moz-progress-bar {
   padding: 5px;
   color: #ccc;
   overflow: auto;
-  max-height: 300px;
+  max-height: 500px;
   font-size: 0.9rem;
   line-height: 1.4;
   max-width: 100%; 
@@ -274,11 +298,20 @@ progress::-moz-progress-bar {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .cover-container {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
   }
   .playnav {
     justify-content: center;
+  }
+  #currentsong{
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  button img {
+    width: 30px;
+    height: 30px;
   }
   .vol-search {
     justify-content: center;
@@ -291,5 +324,6 @@ progress::-moz-progress-bar {
   .songlist,
   .lyrics-container {
     max-height: 300px;
+    width: 100%;
   }
 }

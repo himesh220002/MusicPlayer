@@ -6,14 +6,23 @@ import './Mplayer.css';
 import newSong from './newPlaylist.js';
 import Lyrics from './Lyrics.js';
 import { FaVolumeHigh } from "react-icons/fa6";
+// import { FaVolumeMute } from "react-icons/fa";
+import { IoVolumeMute } from "react-icons/io5";
+import useAudioVisualizer from './hooks/useAudioVisualizer.js';
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.5);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const [randomPlay, setRandomPlay] = useState(false);
   const [progress, setProgress] = useState(0);
   const [newSongs, setNewSongs] = useState([]);
+
+  const audioRef = useRef(null);
+  const canvasRef = useRef(null);
+  useAudioVisualizer(audioRef, canvasRef);
+
 
   const getStoredPlaylist = () => {
     const storedPlaylist = localStorage.getItem('playlist');
@@ -26,7 +35,15 @@ const MusicPlayer = () => {
   const playerRef = useRef(null);
 
   const playPauseToggle = () => setPlaying((prev) => !prev);
-  const handleVolumeChange = (vol) => setVolume(vol);
+  const handleVolumeChange = (vol) => { setVolume(vol); setIsMuted(vol === 0); }
+  const toggleMute = () => {
+    if (isMuted) {
+      setVolume(0.5);     // restore to 50%
+    } else {
+      setVolume(0);       // mute
+    }
+    setIsMuted(!isMuted); // toggle icon
+  };
   const handleProgress = (prog) => setProgress(prog.played);
   const handleProgressBarClick = (e) => {
     const clickX = e.clientX - e.target.getBoundingClientRect().left;
@@ -90,22 +107,37 @@ const MusicPlayer = () => {
 
   return (
     <div className='music'>
-      <div className='cover-container '>
-        <div className='playing '>
-          <p id='currentsong'><strong>🏴‍☠️ Treasure playing: </strong><i>{playlist[currentSongIndex].title}</i></p>
+      <div className='cover-container bg-gradient-to-tr from-pink-900 to-blue-800 p-3 rounded-xl
+'>
+
+        <div className='playing bg-gradient-to-tr from-gray-700 to-red-800'>
+          <div className='flex flex-col lg:flex-row items-center gap-0 lg:gap-5 justify-start mb-5 ml-5'>
+            <div id='currentsong'><strong>🏴‍☠️ Treasure playing </strong></div>
+            <div><i>{playlist[currentSongIndex].title}</i></div>
+          </div>
           <div className='playnav'>
-            <div id="playcontrol">
+            <div id="playcontrol  ">
               <button id='prev' onClick={playPreviousSong}><img src='./images/previous.png' alt='Previous' /></button>
               <button id='play' onClick={playPauseToggle}>
-                {playing ? <img src='./images/pause-button.png' alt='Pause' /> : <img src='./images/play.png' alt='Play' />}
+                <div className=' rounded-full' style={{ backgroundColor: playing ? '#0BFFA0' : '#11F00C', padding: '3px' }} >
+                  {playing ? <img src='./images/pause-button.png' alt='Pause' /> : <img src='./images/play.png' alt='Play' />}
+                </div>
               </button>
               <button id='next' onClick={playNextSong}><img src='./images/next.png' alt='Next' /></button>
               <button id='random' onClick={toggleRandomPlay}>
-                <img src='./images/shuffle (1).png' alt='shuffle' style={{ filter: randomPlay ? 'contrast(250%)' : 'none' }} />
+                <div className=' rounded-full' style={{ backgroundColor: randomPlay ? '#FFAA00' : 'red', padding: '3px' }} >
+                  <img src='./images/shuffle (1).png' alt='shuffle' style={{ filter: randomPlay ? 'contrast(250%)' : 'contrast(80%)' }} />
+                </div>
               </button>
             </div>
             <div className='vol-search'>
-              <i>< FaVolumeHigh /></i>
+              <button
+                onClick={toggleMute}
+                className='text-2xl p-2 cursor-pointer mr-2'
+                title={isMuted ? 'Unmute' : 'Mute'}
+              >
+                {isMuted || volume === 0 ? <IoVolumeMute /> : <FaVolumeHigh />}
+              </button>
               <input
                 id='vol'
                 type='range'
@@ -114,10 +146,12 @@ const MusicPlayer = () => {
                 step={0.01}
                 value={volume}
                 onChange={(e) => handleVolumeChange(parseFloat(e.target.value))}
+                className='accent-blue-500 cursor-pointer'
               />
             </div>
           </div>
         </div>
+
 
         <div className='covrimg'>
           <img
@@ -143,6 +177,10 @@ const MusicPlayer = () => {
             onProgress={handleProgress}
             controls
             className='react-player'
+            onReady={() => {
+              const internalAudio = document.querySelector('audio');
+              if (internalAudio) audioRef.current = internalAudio;
+            }}
           />
         </div>
       </div>
@@ -150,15 +188,46 @@ const MusicPlayer = () => {
       <div id='playlist custom-scroll'>
         <div className='pirateplay'>
           <h2>⚓ Pirate Playlist</h2>
-          <div className='search-file'>
+          {/* <button onClick={} className=''>Add Songs</button> */}
+          <div className='search-file flex gap-3 items-center'>
+            {/* Hidden file input */}
             <input
               type='file'
               accept='audio/*'
               multiple
               onChange={handleFileChange}
+              ref={(ref) => (window.songInput = ref)} // quick external reference
+              style={{ display: 'none' }}
             />
-            <button onClick={handleAddSongs}><img src='./images/add.png' style={{ width: '30px', height: '30px' }} alt='add' /></button>
+
+            {/* Choose File Trigger */}
+            <button
+              onClick={() => window.songInput?.click()}
+              className='bg-white px-3 py-1 rounded text-black hover:bg-gray-200'
+            >
+              🎵 Choose Songs
+            </button>
+
+            {/* Show how many selected */}
+            {newSongs.length > 0 && (
+              <span className='text-sm text-green-400'>
+                {newSongs.length} song{newSongs.length > 1 ? 's' : ''} selected
+              </span>
+            )}
+
+            {/* Add Songs */}
+            <button
+              onClick={() => {
+                handleAddSongs();
+                if (window.songInput) window.songInput.value = ''; // reset input
+              }}
+              disabled={newSongs.length === 0}
+              className='bg-gradient-to-r from-blue-500 to-green-500 px-3 py-1 rounded-full text-white hover:opacity-90 disabled:opacity-50'
+            >
+              ➕ Add to Playlist
+            </button>
           </div>
+
         </div>
 
         <div className='listLyric'>
