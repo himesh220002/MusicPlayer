@@ -51,7 +51,7 @@ const newSongs = [
     lyrics: lyricsData['Linkin Park - One Step Closer'],
   },
   {
-    url: './Music/Hotel California.flac',
+    url: './Music/Hotel California eagles.flac',
     title: 'Hotel California',
     singer: 'Eagles',
     coverImage: './images/eagels-hotel-california.jpg',
