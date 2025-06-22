@@ -51,13 +51,13 @@ const newSongs = [
     lyrics: lyricsData['Linkin Park - One Step Closer'],
   },
   {
-    url: './Music/Hotel California eagles.flac',
-    title: 'Hotel California',
-    singer: 'Eagles',
+    url: './Music/Harleys in hawaii-katy perry.m4a',
+    title: 'Harleys in hawaii',
+    singer: 'katy perry',
     coverImage: './images/eagels-hotel-california.jpg',
   },
   {
-    url: './Music/Comfortably Numb.flac',
+    url: './Music/Comfortably Numb.m4a',
     title: 'Comfortably Numb',
     singer: 'Pink Floyd',
   },
@@ -70,6 +70,11 @@ const newSongs = [
     url: './Music/PinkFloyd - have a cigar.m4a',
     title: 'PinkFloyd - have a cigar',
     singer: 'Pink Floyd',
+  },
+  {
+    url: './Music/die with a smile.m4a',
+    title: 'Die with a Smile',
+    singer: 'Bruno Mars, Lady gaga',
   },
 ];
 
