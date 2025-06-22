@@ -9,6 +9,7 @@ import { FaVolumeHigh } from "react-icons/fa6";
 // import { FaVolumeMute } from "react-icons/fa";
 import { IoVolumeMute } from "react-icons/io5";
 import useAudioVisualizer from './hooks/useAudioVisualizer.js';
+import lyricsData from './lyricsData.js';
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -18,6 +19,7 @@ const MusicPlayer = () => {
   const [randomPlay, setRandomPlay] = useState(false);
   const [progress, setProgress] = useState(0);
   const [newSongs, setNewSongs] = useState([]);
+
 
   const audioRef = useRef(null);
   const canvasRef = useRef(null);
@@ -31,6 +33,8 @@ const MusicPlayer = () => {
 
   const [originalPlaylist, setOriginalPlaylist] = useState(newSong);
   const [playlist, setPlaylist] = useState(originalPlaylist);
+  const lyricsAvailable = !!lyricsData[playlist[currentSongIndex].title];
+
 
   const playerRef = useRef(null);
 
@@ -107,13 +111,15 @@ const MusicPlayer = () => {
 
   return (
     <div className='music'>
-      <div className='cover-container bg-gradient-to-tr from-pink-900 to-blue-800 p-3 rounded-xl
-'>
+      <div className='cover-container bg-gradient-to-tr from-pink-900 to-black p-3 rounded-xl'>
 
-        <div className='playing bg-gradient-to-tr from-gray-700 to-red-800'>
-          <div className='flex flex-col lg:flex-row items-center gap-0 lg:gap-5 justify-start mb-5 ml-5'>
-            <div id='currentsong'><strong>🏴‍☠️ Treasure playing </strong></div>
-            <div><i>{playlist[currentSongIndex].title}</i></div>
+        <div className='playing bg-gradient-to-t from-gray-700 to-red-800/0'>
+          <div className='mx-2'>
+            {/* <div id='currentsong'><strong>🏴‍☠️ Treasure playing </strong></div> */}
+            <div className='flex justify-between my-2 p-2 rounded-md border-0 border-x-2 shadow-md bg-gradient-to-tr from-gray-700 to-red-800'>
+              <div><i>{playlist[currentSongIndex].title}</i></div>
+              <div className='text-gray-400'><i>Singer: {playlist[currentSongIndex].singer}</i></div>
+            </div>
           </div>
           <div className='playnav'>
             <div id="playcontrol  ">
@@ -186,7 +192,7 @@ const MusicPlayer = () => {
       </div>
 
       <div id='playlist custom-scroll'>
-        <div className='pirateplay'>
+        <div className='pirateplay mb-5'>
           <h2>⚓ Pirate Playlist</h2>
           {/* <button onClick={} className=''>Add Songs</button> */}
           <div className='search-file flex gap-3 items-center'>
@@ -203,7 +209,7 @@ const MusicPlayer = () => {
             {/* Choose File Trigger */}
             <button
               onClick={() => window.songInput?.click()}
-              className='bg-white px-3 py-1 rounded text-black hover:bg-gray-200'
+              className='px-1 lg:px-3 py-1 rounded text-sm lg:text-md text-black bg-green-200 hover:bg-gray-100'
             >
               🎵 Choose Songs
             </button>
@@ -222,7 +228,7 @@ const MusicPlayer = () => {
                 if (window.songInput) window.songInput.value = ''; // reset input
               }}
               disabled={newSongs.length === 0}
-              className='bg-gradient-to-r from-blue-500 to-green-500 px-3 py-1 rounded-full text-white hover:opacity-90 disabled:opacity-50'
+              className='text-sm lg:text-md bg-gradient-to-r from-blue-500 to-green-500 px-3 py-1 rounded-full text-white  hover:opacity-90 disabled:opacity-50'
             >
               ➕ Add to Playlist
             </button>
@@ -230,8 +236,8 @@ const MusicPlayer = () => {
 
         </div>
 
-        <div className='listLyric'>
-          <div className='songlist custom-scroll'>
+        <div className={`listLyric h-[500px] flex ${lyricsAvailable ? 'flex-row' : 'flex-col'}`}>
+          <div className={`songlist custom-scroll ${lyricsAvailable ? 'w-1/2' : 'w-full'}`}>
             <ul>
               {playlist.map((song, index) => (
                 <li
@@ -247,9 +253,11 @@ const MusicPlayer = () => {
             </ul>
           </div>
 
-          <div className='lyrics-container custom-scroll'>
-            <Lyrics songTitle={playlist[currentSongIndex].title} />
-          </div>
+          {lyricsAvailable && (
+            <div className='lyrics-container custom-scroll w-1/2'>
+              <Lyrics songTitle={playlist[currentSongIndex].title} />
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -59,7 +59,8 @@ body{
   flex: 1;
   min-width: 280px;
   max-width: 550px;
-  border: 2px solid rgb(3, 80, 113);
+  /* height: 280px; */
+  border: 0px solid rgb(3, 80, 113);
   border-radius: 10px;
   padding: 5px;
 }
@@ -297,6 +298,10 @@ progress::-moz-progress-bar {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .covrimg{
+    width: 60%;
+    height: 60%;
+  }
   .cover-container {
     flex-direction: column-reverse;
     align-items: center;
@@ -325,5 +330,8 @@ progress::-moz-progress-bar {
   .lyrics-container {
     max-height: 300px;
     width: 100%;
+  }
+  .pirateplay h2{
+    font-size: 1rem;
   }
 }

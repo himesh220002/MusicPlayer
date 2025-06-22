@@ -1,11 +1,10 @@
-// Lyrics.js
-
 import React from 'react';
 import lyricsData from './lyricsData';
 import './Mplayer.css';
 
 const Lyrics = ({ songTitle }) => {
-  const lyrics = lyricsData[songTitle] || 'Lyrics not available';
+  const lyrics = lyricsData[songTitle];
+  if (!lyrics) return null;
 
   return (
     <div className='lyrics-container custom-scroll'>
