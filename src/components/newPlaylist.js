@@ -54,7 +54,6 @@ const newSongs = [
     url: './Music/Harleys in hawaii-katy perry.m4a',
     title: 'Harleys in hawaii',
     singer: 'katy perry',
-    coverImage: './images/eagels-hotel-california.jpg',
   },
   {
     url: './Music/Comfortably Numb.m4a',
