@@ -8,7 +8,7 @@ import { FaVolumeHigh } from "react-icons/fa6";
 import { IoVolumeMute } from "react-icons/io5";
 import useAudioVisualizer from './hooks/useAudioVisualizer.js';
 import lyricsData from './lyricsData.js';
-import { FaChevronDown, FaChevronUp  } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -23,6 +23,8 @@ const MusicPlayer = () => {
   const [selectedSpotifyTrackId, setSelectedSpotifyTrackId] = useState('18lR4BzEs7e3qzc0KVkTpU');
   const [visibleCount, setVisibleCount] = useState(16); // initially show 16
   const [showSpotifyResults, setShowSpotifyResults] = useState(true);
+  const spotifyIframeRef = useRef(null);
+
 
 
 
@@ -267,9 +269,9 @@ const MusicPlayer = () => {
           </div>
         </div>
 
-        <div className={`listLyric h-[500px] flex ${lyricsAvailable ? 'flex-row' : 'flex-col'}`}>
-          <div className={`songlist custom-scroll ${lyricsAvailable ? 'w-1/2' : 'w-full'}`}>
-            
+        <div className={'listLyric '}>
+          <div className={'songlist custom-scroll '}>
+
             <ul>
               {playlist.map((song, index) => (
                 <li
@@ -278,7 +280,6 @@ const MusicPlayer = () => {
                   className={index === currentSongIndex ? 'playing-song' : ''}
                 >
                   <div style={{ display: 'flex' }}>
-                    {/* <span>🎶</span>&nbsp;<span>{song.title}</span> */}
                     <span>🎶 {song.title} </span>
 
                   </div>
@@ -287,11 +288,11 @@ const MusicPlayer = () => {
             </ul>
           </div>
 
-          {lyricsAvailable && (
+          {/* {lyricsAvailable && (
             <div className='lyrics-container custom-scroll w-1/2'>
               <Lyrics songTitle={currentSong?.title} />
             </div>
-          )}
+          )} */}
         </div>
 
 
@@ -315,10 +316,10 @@ const MusicPlayer = () => {
             </>
           })}
         </div> */}
-        <h4 className="text-white mb-2">🎶 Now Playing on Spotify</h4>
+        <h4 className="text-white mb-2" ref={spotifyIframeRef}>🎶 Now Playing on Spotify</h4>
 
         {selectedSpotifyTrackId && (
-          <div className="mt-4">
+          <div className="mt-4" >
             <iframe
               src={`https://open.spotify.com/embed/track/${selectedSpotifyTrackId}?utm_source=generator&autoplay=1`}
               width="100%"
@@ -333,64 +334,69 @@ const MusicPlayer = () => {
         )}
 
         <div className="spotify-rapid mt-4 p-2">
-  {spotyfyMusic.length > 0 && (
-    <>
-      {/* Header with toggle button */}
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="text-white text-lg">🎧 Spotify Search Results</h3>
-        <button
-          onClick={() => setShowSpotifyResults(prev => !prev)}
-          className="text-white text-xl px-2 hover:text-green-400 transition"
-          title={showSpotifyResults ? 'Hide Results' : 'Show Results'}
-        >
-          {showSpotifyResults ? <FaChevronUp /> : <FaChevronDown/>}
-        </button>
-      </div>
+          {spotyfyMusic.length > 0 && (
+            <>
+              {/* Header with toggle button */}
+              <div className="flex justify-between items-center mb-2">
+                <h3 className="text-white text-lg">🎧 Spotify Search Results</h3>
+                <button
+                  onClick={() => setShowSpotifyResults(prev => !prev)}
+                  className="text-white text-xl px-2 hover:text-green-400 transition"
+                  title={showSpotifyResults ? 'Hide Results' : 'Show Results'}
+                >
+                  {showSpotifyResults ? <FaChevronUp /> : <FaChevronDown />}
+                </button>
+              </div>
 
-      {/* Result Grid + Load More, hidden together */}
-      {showSpotifyResults && (
-        <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {spotyfyMusic
-              .filter(item => item?.data?.albumOfTrack?.coverArt?.sources?.[0]?.url)
-              .slice(0, visibleCount)
-              .map((item, index) => {
-                const data = item.data;
-                const image = data.albumOfTrack.coverArt.sources[0].url;
-                const title = data.name;
-                const artist = data.artists.items.map(a => a.profile.name).join(", ");
-                const trackId = data.id;
+              {/* Result Grid + Load More, hidden together */}
+              {showSpotifyResults && (
+                <>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                    {spotyfyMusic
+                      .filter(item => item?.data?.albumOfTrack?.coverArt?.sources?.[0]?.url)
+                      .slice(0, visibleCount)
+                      .map((item, index) => {
+                        const data = item.data;
+                        const image = data.albumOfTrack.coverArt.sources[0].url;
+                        const title = data.name;
+                        const artist = data.artists.items.map(a => a.profile.name).join(", ");
+                        const trackId = data.id;
 
-                return (
-                  <div
-                    key={index}
-                    className="bg-black rounded-lg p-2 cursor-pointer hover:bg-gray-800 transition"
-                    onClick={() => setSelectedSpotifyTrackId(trackId)}
-                  >
-                    <img src={image} alt={title} className="w-full h-40 object-cover rounded-md mb-2" />
-                    <div className="text-white font-semibold text-sm truncate">{title}</div>
-                    <div className="text-gray-400 text-xs truncate">{artist}</div>
+                        return (
+                          <div
+                            key={index}
+                            className="bg-black rounded-lg p-2 cursor-pointer hover:bg-gray-800 transition"
+                            onClick={() => {
+                              setSelectedSpotifyTrackId(trackId);
+                              setTimeout(() => {
+                                spotifyIframeRef.current?.scrollIntoView({ behavior: 'smooth' });
+                              }, 100);
+                            }}
+                          >
+                            <img src={image} alt={title} className="w-full h-40 object-cover rounded-md mb-2" />
+                            <div className="text-white font-semibold text-sm truncate">{title}</div>
+                            <div className="text-gray-400 text-xs truncate">{artist}</div>
+                          </div>
+                        );
+                      })}
                   </div>
-                );
-              })}
-          </div>
 
-          {/* Load More Button */}
-          {visibleCount < spotyfyMusic.length && (
-            <div className="text-center mt-4">
-              <button
-                onClick={() => setVisibleCount(prev => prev + 12)}
-                className="bg-green-900 hover:bg-green-700 text-white px-4 py-1 rounded shadow"
-              >
-               Load More
-              </button>
-            </div>
+                  {/* Load More Button */}
+                  {visibleCount < spotyfyMusic.length && (
+                    <div className="text-center mt-4">
+                      <button
+                        onClick={() => setVisibleCount(prev => prev + 12)}
+                        className="bg-green-900 hover:bg-green-700 text-white px-4 py-1 rounded shadow"
+                      >
+                        Load More
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
+            </>
           )}
-        </>
-      )}
-    </>
-  )}
-</div>
+        </div>
 
 
 
