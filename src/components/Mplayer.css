@@ -105,10 +105,10 @@ button {
   transition: background-color 0.3s ease;
 }
 
-button:hover {
+/* button:hover {
   
   outline:auto;
-}
+} */
 
 /* Button images */
 button img {

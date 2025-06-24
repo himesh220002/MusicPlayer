@@ -21,3 +21,11 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# SSL Certificates - NEVER COMMIT
+server.key
+server.cert
+*.pem
+*.crt
+*.csr
+

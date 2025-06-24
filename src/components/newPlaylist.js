@@ -1,4 +1,4 @@
-import lyricsData from "./lyricsData";
+import lyricsData from "./lyricsData.js";
 
 const newSongs = [
   {

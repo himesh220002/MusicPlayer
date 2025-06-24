@@ -1,5 +1,5 @@
 import React from 'react';
-import lyricsData from './lyricsData';
+import lyricsData from './lyricsData.js';
 import './Mplayer.css';
 
 const Lyrics = ({ songTitle }) => {
