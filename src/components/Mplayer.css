@@ -243,7 +243,7 @@ progress::-moz-progress-bar {
   background-color: #222;
   border-radius: 8px;
   padding: 10px;
-  max-height: 500px;
+  height: 320px;
 }
 
 .songlist ul {
@@ -328,7 +328,7 @@ progress::-moz-progress-bar {
   }
   .songlist,
   .lyrics-container {
-    max-height: 300px;
+    max-height: 320px;
     width: 100%;
   }
   .pirateplay h2{
