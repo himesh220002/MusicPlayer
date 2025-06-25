@@ -199,13 +199,14 @@ const MusicPlayer = () => {
               <button id='random' onClick={toggleRandomPlay}>
                 <div className='rounded-full' style={{ backgroundColor: randomPlay ? '#FFAA00' : 'red', padding: '3px' }} >
                   {/* <img src='./images/shuffle (1).png' alt='shuffle' style={{ filter: randomPlay ? 'contrast(250%)' : 'contrast(80%)' }} /> */}
-                  <FaRandom className='rounded-full w-12 h-12 border-2 border-red-700 p-1 bg-red-600'  style={{ filter: randomPlay ? 'contrast(250%)' : 'contrast(80%)' }}/>
+                  <FaRandom className='rounded-full w-7 h-7 md:w-12 md:h-12  border-2 border-red-700 p-1 bg-red-600'  style={{ filter: randomPlay ? 'contrast(250%)' : 'contrast(80%)' }}/>
                 </div>
               </button>
             </div>
 
             <div className='vol-search'>
-              <button onClick={toggleMute} className='text-2xl p-2 cursor-pointer mr-2'>
+              <button onClick={toggleMute} 
+              style={{ backgroundColor: isMuted || volume === 0 ? '#FF2255' : 'cyan', color: isMuted || volume === 0 ? 'white' : 'black'}} className='text-2xl p-1 cursor-pointer mr-2 '>
                 {isMuted || volume === 0 ? <IoVolumeMute /> : <FaVolumeHigh />}
               </button>
               <input
@@ -259,7 +260,7 @@ const MusicPlayer = () => {
       <div id='playlist custom-scroll'>
         <div className='pirateplay mb-5'>
           <h2>⚓ Pirate Playlist</h2>
-          <div className='search-file flex gap-3 items-center'>
+          <div className='search-file flex gap-3 mt-2 lg:mt-0 items-center'>
             <input
               type='file'
               accept='audio/*'
@@ -268,7 +269,7 @@ const MusicPlayer = () => {
               ref={(ref) => (window.songInput = ref)}
               style={{ display: 'none' }}
             />
-            <button onClick={() => window.songInput?.click()} className='px-1 lg:px-3 py-1 rounded text-sm lg:text-md text-black bg-green-200 hover:bg-gray-100'>
+            <button onClick={() => window.songInput?.click()} className='px-1 lg:px-3 py-1 rounded text-sm lg:text-md text-black bg-gradient-to-l from-blue-300/80 to-green-500/90  hover:bg-gray-100'>
               🎵 Choose Songs
             </button>
 
