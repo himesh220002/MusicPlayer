@@ -9,6 +9,7 @@ import { IoVolumeMute } from "react-icons/io5";
 // import useAudioVisualizer from './hooks/useAudioVisualizer.js';
 import lyricsData from './lyricsData.js';
 import { FaChevronDown, FaChevronUp, FaRandom } from "react-icons/fa";
+import { IoIosSearch } from "react-icons/io";
 
 const MusicPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -24,6 +25,9 @@ const MusicPlayer = () => {
   const [selectedSpotifyPlaylistId, setSelectedSpotifyPlaylistId] = useState('0Y44bc2Fd2IfbhqSPnNlTC');
   const [visibleCount, setVisibleCount] = useState(16); // initially show 16
   const [showSpotifyResults, setShowSpotifyResults] = useState(true);
+  const [loadingTrack, setLoadingTrack] = useState(false);
+  const [loadingPlaylist, setLoadingPlaylist] = useState(false);
+
   const spotifyIframeRef = useRef(null);
   const spotifySearchTrackRef = useRef(null);
   const spotifySearchPlaylistRef = useRef(null);
@@ -135,9 +139,19 @@ const MusicPlayer = () => {
     setNewSongs([]);
   };
 
+  const SkeletonCard = () => (
+    <div className="bg-gray-800 animate-pulse rounded-lg p-2">
+      <div className="w-full h-40 bg-gray-700 rounded mb-2"></div>
+      <div className="h-4 bg-gray-600 rounded mb-1 w-3/4"></div>
+      <div className="h-3 bg-gray-600 rounded w-1/2"></div>
+    </div>
+  );
+
+
   const getMusic = async () => {
     if (!searchQuery.trim()) return;
-
+    setLoadingPlaylist(true);
+    
     const url = `https://spotify23.p.rapidapi.com/search/?q=${encodeURIComponent(searchQuery)}&type=multi&offset=0&limit=100&numberOfTopResults=20`;
     const options = {
       method: 'GET',
@@ -168,6 +182,9 @@ const MusicPlayer = () => {
       // setSpotiyMusicUser(users);
     } catch (error) {
       console.error('Spotify search error:', error);
+    } finally {
+       setLoadingPlaylist(false);
+      
     }
   };
 
@@ -199,14 +216,14 @@ const MusicPlayer = () => {
               <button id='random' onClick={toggleRandomPlay}>
                 <div className='rounded-full' style={{ backgroundColor: randomPlay ? '#FFAA00' : 'red', padding: '3px' }} >
                   {/* <img src='./images/shuffle (1).png' alt='shuffle' style={{ filter: randomPlay ? 'contrast(250%)' : 'contrast(80%)' }} /> */}
-                  <FaRandom className='rounded-full w-7 h-7 md:w-12 md:h-12  border-2 border-red-700 p-1 bg-red-600'  style={{ filter: randomPlay ? 'contrast(250%)' : 'contrast(80%)' }}/>
+                  <FaRandom className='rounded-full w-7 h-7 md:w-12 md:h-12  border-2 border-red-700 p-1 bg-red-600' style={{ filter: randomPlay ? 'contrast(250%)' : 'contrast(80%)' }} />
                 </div>
               </button>
             </div>
 
             <div className='vol-search'>
-              <button onClick={toggleMute} 
-              style={{ backgroundColor: isMuted || volume === 0 ? '#FF2255' : 'cyan', color: isMuted || volume === 0 ? 'white' : 'black'}} className='text-2xl p-1 cursor-pointer mr-2 '>
+              <button onClick={toggleMute}
+                style={{ backgroundColor: isMuted || volume === 0 ? '#FF2255' : 'cyan', color: isMuted || volume === 0 ? 'white' : 'black' }} className='text-2xl p-1 cursor-pointer mr-2 '>
                 {isMuted || volume === 0 ? <IoVolumeMute /> : <FaVolumeHigh />}
               </button>
               <input
@@ -336,35 +353,37 @@ const MusicPlayer = () => {
         <div className={`SpotifyTrack ${sections.track ? '' : 'hidden'}`}>
           <div className='flex items-center gap-2 my-4'>
             <div>
-            <input
-              type="text"
-              ref={inputRef}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') { getMusic() }
-              }}
-              placeholder="Search from Spotify"
-              className="text-black px-2 py-1 rounded border border-gray-500"
-            />
-          </div>
-          <div>
-          <button
-            onClick={() => {
-              const query = inputRef.current?.value.trim();
-              if (query) {
-                setSearchQuery(query);         // optional: keep UI state in sync
-                getMusic(query);               // use latest typed value
-                setTimeout(() => {
-                  spotifySearchTrackRef.current?.scrollIntoView({ behavior: 'smooth' });
-                }, 2000);
-              }
-            }}
-            className='bg-blue-700 py-1 px-2 rounded'
-          >
-            Search
-          </button>
-          </div>
+              <input
+                type="text"
+                ref={inputRef}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    getMusic();
+                  }
+                }}
+                placeholder="Search from Spotify"
+                className="text-black px-2 py-1 rounded border border-gray-500"
+              />
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  const query = inputRef.current?.value.trim();
+                  if (query) {
+                    setSearchQuery(query);         // optional: keep UI state in sync
+                    getMusic('track');               // use latest typed value
+                    setTimeout(() => {
+                      spotifySearchTrackRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }}
+                className='bg-blue-700 p-2 rounded-full'
+              >
+                <IoIosSearch />
+              </button>
+            </div>
           </div>
 
           <h4 className="text-white mb-2" ref={spotifyIframeRef}>🎶 Now Playing on Spotify</h4>
@@ -384,6 +403,7 @@ const MusicPlayer = () => {
               ></iframe>
             </div>
           )}
+
 
           <div className="spotify-rapid mt-4 p-2">
             {spotifyMusicTrack.length > 0 && (
@@ -446,6 +466,7 @@ const MusicPlayer = () => {
                     )}
                   </>
                 )}
+
               </>
             )}
           </div>
@@ -459,35 +480,40 @@ const MusicPlayer = () => {
         <div className={`SpotifyPlaylist ${sections.playlist ? '' : 'hidden'}`}>
           <div className='flex items-center gap-2 my-4'>
             <div>
-            <input
-              type="text"
-              ref={inputRef}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') { getMusic() }
-              }}
-              placeholder="Search from Spotify"
-              className="text-black px-2 py-1 rounded border border-gray-500"
-            />
-          </div>
-          <div>
-          <button
-            onClick={() => {
-              const query = inputRef.current?.value.trim();
-              if (query) {
-                setSearchQuery(query);         // optional: keep UI state in sync
-                getMusic(query);               // use latest typed value
-                setTimeout(() => {
-                  spotifySearchPlaylistRef.current?.scrollIntoView({ behavior: 'smooth' });
-                }, 2000);
-              }
-            }}
-            className='bg-blue-700 py-1 px-2 rounded'
-          >
-            Search
-          </button>
-          </div>
+              <input
+                type="text"
+                ref={inputRef}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    getMusic();
+                    setTimeout(() => {
+                      spotifySearchPlaylistRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }}
+                placeholder="Search from Spotify"
+                className="text-black px-2 py-1 rounded border border-gray-500"
+              />
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  const query = inputRef.current?.value.trim();
+                  if (query) {
+                    setSearchQuery(query);         // optional: keep UI state in sync
+                    getMusic('playlist');               // use latest typed value
+                    setTimeout(() => {
+                      spotifySearchPlaylistRef.current?.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }}
+                className='bg-blue-700 p-2 rounded-full'
+              >
+                <IoIosSearch />
+              </button>
+            </div>
           </div>
 
           <h4 className="text-white mb-2" ref={spotifyIframeRef}>🎶 Now Playing on Spotify</h4>
@@ -508,8 +534,13 @@ const MusicPlayer = () => {
             </div>
           )}
 
+
           <div className="spotify-rapid mt-4 p-2" ref={spotifySearchPlaylistRef}>
-            {showSpotifyResults && (
+            {loadingPlaylist ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {Array(8).fill().map((_, idx) => <SkeletonCard key={idx} />)}
+              </div>
+            ): (showSpotifyResults && (
               <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                   {spotifyMusicPlaylist
@@ -553,7 +584,9 @@ const MusicPlayer = () => {
                   </div>
                 )}
               </>
-            )}
+            ))}
+            
+
 
           </div>
 
