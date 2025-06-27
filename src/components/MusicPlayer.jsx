@@ -156,8 +156,8 @@ const MusicPlayer = () => {
     const options = {
       method: 'GET',
       headers: {
-        // 'x-rapidapi-key': '70acd5497amsh7a58dbf275b9225p152f45jsn81db6ac69f43', // sh@gm.cm
-        'x-rapidapi-key': 'a3177ec5camsh06ef138b2d6a87dp132edejsn26370bb36795', // versioname4
+        // 'x-rapidapi-key': process.env.SPOTIFY_RAPID_API_KEY, // sh@gm.cm
+        'x-rapidapi-key': process.env.SPOTIFY_V4_RAPID_API_KEY, // versioname4
         'x-rapidapi-host': 'spotify23.p.rapidapi.com'
       }
     };
